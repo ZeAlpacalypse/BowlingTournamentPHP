@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Blackier A4</title>
+    <title>Bowling Tournament Login</title>
 
     <link rel="stylesheet" href="mainStyle.css">
     <script src="main.js"></script>
