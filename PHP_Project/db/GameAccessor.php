@@ -74,4 +74,39 @@ class GameAccessor
         }
         return $results;
     }
+    /**
+     * Gets the menu item with the specified ID.
+     * 
+     * @param Integer $id the ID of the item to retrieve 
+     * @return Game Game object with the specified ID, or NULL if not found
+     */
+    private function getItemByID($id)
+    {
+        $result = null;
+
+        try {
+            $this->getByIDStatement->bindParam(":gameID", $id);
+            $this->getByIDStatement->execute();
+            $dbresults = $this->getByIDStatement->fetch(PDO::FETCH_ASSOC); // not fetchAll
+
+            if ($dbresults) {
+                $gameID = $dbresults['gameID'];
+                $matchID = $dbresults['matchID'];
+                $gameNumber = $dbresults['gameNumber'];
+                $gameStateID = $dbresults['gameStateID'];
+                $score = $dbresults['score'];
+                $balls = $dbresults['balls'];
+                $playerID = $dbresults['playerID'];
+                $result = new Game($gameID, $matchID, $gameNumber, $gameStateID, $score, $balls, $playerID);
+            }
+        } catch (Exception $e) {
+            $result = null;
+        } finally {
+            if (!is_null($this->getByIDStatement)) {
+                $this->getByIDStatement->closeCursor();
+            }
+        }
+
+        return $result;
+    }
 }
