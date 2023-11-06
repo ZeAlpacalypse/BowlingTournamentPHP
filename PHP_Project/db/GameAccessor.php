@@ -45,4 +45,33 @@ class GameAccessor
             throw new Exception("bad statement: '" . $this->updateStatementString . "'");
         }
     }
+
+    public function getAllItems()
+    {
+        $results = [];
+        try {
+            $this->getAllStatement->execute();
+            $dbresults = $this->getAllStatement->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($dbresults as $row) {
+                $gameID = $row['gameID'];
+                $matchID = $row['matchID'];
+                $gameNumber = $row['gameNumber'];
+                $gameStateID = $row['gameStateID'];
+                $score = $row['score'];
+                $balls = $row['balls'];
+                $playerID = $row['playerID'];
+                $obj = new Game($gameID, $matchID, $gameNumber, $gameStateID, $score, $balls, $playerID);
+                array_push($results, $obj);
+            }
+            //code...
+        } catch (Exception $e) {
+            $results = [];
+        } finally {
+            if (!is_null($this->getAllStatement)) {
+                $this->getAllStatement->closeCursor();
+            }
+        }
+        return $results;
+    }
 }
