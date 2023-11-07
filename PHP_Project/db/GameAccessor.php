@@ -109,4 +109,15 @@ class GameAccessor
 
         return $result;
     }
+
+    /**
+     * Does an item exist (with the same ID)?
+     * 
+     * @param Game $item the item to check
+     * @return boolean true if the item exists; false if not
+     */
+    public function itemExists($item)
+    {
+        return $this->getItemByID($item->getgameID()) !== null;
+    }
 }
