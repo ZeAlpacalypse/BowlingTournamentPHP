@@ -120,4 +120,44 @@ class GameAccessor
     {
         return $this->getItemByID($item->getgameID()) !== null;
     }
+    /**
+     * Inserts a menu item into the database.
+     * 
+     * @param CatalogGames $item an object of type CatalogGames
+     * @return boolean indicates if the item was inserted
+     */
+    public function insertItem($item)
+    {
+        if ($this->itemExists($item)) {
+            return false;
+        }
+
+        $success = false;
+
+        $gameID = $item->getgameID();
+        $matchID = $item->getMatchID();
+        $gameNumber = $item->getGameNumber();
+        $gameStateID = $item->getGameStateID();
+        $score = $item->getScore();
+        $balls = $item->getBalls();
+        $playerID = $item->getPlayerID();
+        try {
+            $this->insertStatement->bindParam(":gameID", $gameID);
+            $this->insertStatement->bindParam(":matchID", $matchID);
+            $this->insertStatement->bindParam(":gameNumber", $gameNumber);
+            $this->insertStatement->bindParam(":gameStateID", $gameStateID);
+            $this->insertStatement->bindParam(":score", $score);
+            $this->insertStatement->bindParam(":balls", $balls);
+            $this->insertStatement->bindParam(":playerID", $playerID);
+            $success = $this->insertStatement->execute(); // this doesn't mean what you think it means
+            $success = $this->insertStatement->rowCount() === 1;
+        } catch (PDOException $e) {
+            $success = false;
+        } finally {
+            if (!is_null($this->insertStatement)) {
+                $this->insertStatement->closeCursor();
+            }
+        }
+        return $success;
+    }
 }
