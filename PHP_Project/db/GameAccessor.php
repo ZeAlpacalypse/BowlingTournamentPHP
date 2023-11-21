@@ -3,10 +3,12 @@ require_once dirname(__DIR__, 1) . "/entity/Game.php";
 
 class GameAccessor
 {
+    //All insert statements are commented out because I don't think we will need them but if we do they can be implemented.
     private $getAllStatementString = "select * from Game";
-    private $getByIDStatementString = "select * from CatalogGames where gameID = :gameID";
-    private $deleteStatementString = "delete from CatalogGames where gameID = :gameID";
-    private $insertStatementString = "insert INTO Game values (:gameID, :matchID, :gameNumber, :gameStateID, :score, :balls, :playerID";
+    private $getByIDStatementString = "select * from Game where gameID = :gameID";
+
+
+    // private $insertStatementString = "insert INTO Game values (:gameID, :matchID, :gameNumber, :gameStateID, :score, :balls, :playerID";
     private $updateStatementString = "update Game set matchID = :matchID, gameNumber = :gameNumber, gameStateID = :gameStateID, score = :score, balls = :balls, playerID = :playerID where gameID = :gameID";
     private $getAllStatement = null;
     private $getByIDStatement = null;
@@ -30,15 +32,13 @@ class GameAccessor
             throw new Exception("bad statement: '" . $this->getByIDStatementString . "'");
         }
 
-        $this->deleteStatement = $conn->prepare($this->deleteStatementString);
-        if (is_null($this->deleteStatement)) {
-            throw new Exception("bad statement: '" . $this->deleteStatementString . "'");
-        }
 
-        $this->insertStatement = $conn->prepare($this->insertStatementString);
-        if (is_null($this->insertStatement)) {
-            throw new Exception("bad statement: '" . $this->getAllStatementString . "'");
-        }
+
+
+        // $this->insertStatement = $conn->prepare($this->insertStatementString);
+        // if (is_null($this->insertStatement)) {
+        //     throw new Exception("bad statement: '" . $this->getAllStatementString . "'");
+        // }
 
         $this->updateStatement = $conn->prepare($this->updateStatementString);
         if (is_null($this->updateStatement)) {
@@ -123,12 +123,56 @@ class GameAccessor
     /**
      * Inserts a menu item into the database.
      * 
-     * @param CatalogGames $item an object of type CatalogGames
+     * @param Game $item an object of type Game
      * @return boolean indicates if the item was inserted
      */
-    public function insertItem($item)
+
+    //This is commented out because I don't believe we need to add more games and are 
+    //just updating ones that are already there when scoring a game
+
+    // public function insertItem($item)
+    // {
+    //     if ($this->itemExists($item)) {
+    //         return false;
+    //     }
+
+    //     $success = false;
+
+    //     $gameID = $item->getgameID();
+    //     $matchID = $item->getMatchID();
+    //     $gameNumber = $item->getGameNumber();
+    //     $gameStateID = $item->getGameStateID();
+    //     $score = $item->getScore();
+    //     $balls = $item->getBalls();
+    //     $playerID = $item->getPlayerID();
+    //     try {
+    //         $this->insertStatement->bindParam(":gameID", $gameID);
+    //         $this->insertStatement->bindParam(":matchID", $matchID);
+    //         $this->insertStatement->bindParam(":gameNumber", $gameNumber);
+    //         $this->insertStatement->bindParam(":gameStateID", $gameStateID);
+    //         $this->insertStatement->bindParam(":score", $score);
+    //         $this->insertStatement->bindParam(":balls", $balls);
+    //         $this->insertStatement->bindParam(":playerID", $playerID);
+    //         $success = $this->insertStatement->execute(); // this doesn't mean what you think it means
+    //         $success = $this->insertStatement->rowCount() === 1;
+    //     } catch (PDOException $e) {
+    //         $success = false;
+    //     } finally {
+    //         if (!is_null($this->insertStatement)) {
+    //             $this->insertStatement->closeCursor();
+    //         }
+    //     }
+    //     return $success;
+    // }
+    /**
+     * Updates a menu item in the database.
+     * 
+     * @param Game $item an object of type CatalogGames, the new values to replace the database's current values
+     * @return boolean indicates if the item was updated
+     */
+    public function updateItem($item)
     {
-        if ($this->itemExists($item)) {
+        if (!$this->itemExists($item)) {
             return false;
         }
 
@@ -141,21 +185,24 @@ class GameAccessor
         $score = $item->getScore();
         $balls = $item->getBalls();
         $playerID = $item->getPlayerID();
+
         try {
-            $this->insertStatement->bindParam(":gameID", $gameID);
-            $this->insertStatement->bindParam(":matchID", $matchID);
-            $this->insertStatement->bindParam(":gameNumber", $gameNumber);
-            $this->insertStatement->bindParam(":gameStateID", $gameStateID);
-            $this->insertStatement->bindParam(":score", $score);
-            $this->insertStatement->bindParam(":balls", $balls);
-            $this->insertStatement->bindParam(":playerID", $playerID);
-            $success = $this->insertStatement->execute(); // this doesn't mean what you think it means
-            $success = $this->insertStatement->rowCount() === 1;
+            $this->updateStatement->bindParam(":gameID", $gameID);
+            $this->updateStatement->bindParam(":matchID", $matchID);
+            $this->updateStatement->bindParam(":gameNumber", $gameNumber);
+            $this->updateStatement->bindParam(":gameStateID", $gameStateID);
+            $this->updateStatement->bindParam(":score", $score);
+            $this->updateStatement->bindParam(":balls", $balls);
+            $this->updateStatement->bindParam(":playerID", $playerID);
+
+
+            $success = $this->updateStatement->execute(); // this doesn't mean what you think it means
+            $success = $this->updateStatement->rowCount() === 1;
         } catch (PDOException $e) {
             $success = false;
         } finally {
-            if (!is_null($this->insertStatement)) {
-                $this->insertStatement->closeCursor();
+            if (!is_null($this->updateStatement)) {
+                $this->updateStatement->closeCursor();
             }
         }
         return $success;
