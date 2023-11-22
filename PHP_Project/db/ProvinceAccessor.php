@@ -31,9 +31,9 @@ class ProvinceAccessor
             $dbresults = $this->getAllStatement->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($dbresults as $r) {
-                $platformID = $r['platformID'];
-                $platformDescription = $r['platformDescription'];
-                $obj = new Province($platformID, $platformDescription);
+                $provinceCode = $r['provinceCode'];
+                $provinceName = $r['provinceName'];
+                $obj = new Province($provinceCode, $provinceName);
                 array_push($result, $obj);
             }
         } catch (Exception $e) {
