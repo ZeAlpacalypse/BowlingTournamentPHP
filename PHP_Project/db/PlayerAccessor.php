@@ -110,12 +110,12 @@ class PlayerAccessor
     /**
      * Does a player exist with the same ID?
      * 
-     * @param Player $item the item to check
+     * @param Player $player the item to check
      * @return boolean true if the item exists; false if not
      */
     public function playerExists($player)
     {
-        return $this->getPlayerByID($player->getPlayerByID()) !== null;
+        return $this->getPlayerByID($player->getPlayerID()) !== null;
     }
     /**
      * Deletes a player
