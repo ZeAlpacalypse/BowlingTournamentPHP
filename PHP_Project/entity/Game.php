@@ -21,22 +21,22 @@ class Game implements JsonSerializable
         $this->playerID = $playerID;
     }
 
-    public function getgameID()
+    public function getGameID()
     {
         return $this->gameID;
     }
 
-    public function getmatchID()
+    public function getMatchID()
     {
         return $this->matchID;
     }
 
-    public function getgameNumber()
+    public function getGameNumber()
     {
         return $this->gameNumber;
     }
 
-    public function getgameStateID()
+    public function getGameStateID()
     {
         return $this->gameStateID;
     }
@@ -45,7 +45,14 @@ class Game implements JsonSerializable
     {
         return $this->score;
     }
-
+    public function getBalls()
+    {
+        return $this->balls;
+    }
+    public function getPlayerID()
+    {
+        return $this->playerID;
+    }
     public function jsonSerialize()
     {
         return get_object_vars($this);
