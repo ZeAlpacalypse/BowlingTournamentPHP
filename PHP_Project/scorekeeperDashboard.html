@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Scorekeeper Dashboard</title>
+    <link rel="stylesheet" href="projectStyleSheet.css" />
+    <style>
+      /* General styles */
+      body {
+        font-family: sans-serif;
+        background-color: #f5f5f5;
+      }
+      .container {
+        text-align: center;
+        margin-top: 100px;
+      }
+      h1 {
+        color: #003366;
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+      /* Button styles */
+      .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+      .dashboard-button {
+        padding: 15px 30px;
+        margin: 0 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: #fff;
+        font-size: 1.1em;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .dashboard-button:hover {
+        background-color: #2980b9;
+      }
+      /* Data visibility */
+      .schedule-data,
+      .score-data {
+        display: none;
+      }
+      .visible {
+        display: block;
+      }
+    </style>
+    <script src="scorekeeper.js"></script>
+  </head>
+  <body>
+    <div id="content" class="container">
+      <h1>Scorekeeper Dashboard</h1>
+      <div class="button-container">
+        <button id="viewSchedule" class="dashboard-button">
+          View Tournament Schedule
+        </button>
+        <button id="scoreGames" class="dashboard-button">
+          Score Bowling Games
+        </button>
+      </div>
+      <div class="schedule-data">
+        <!-- Place tournament schedule data here -->
+        <p>Tournament Schedule data goes here...</p>
+      </div>
+      <div class="score-data">
+        <!-- Place bowling game scoring interface here -->
+        <p>Bowling Game Scoring interface goes here...</p>
+      </div>
+    </div>
+  </body>
+</html>
