@@ -9,7 +9,7 @@ class Team implements JsonSerializable
         $this->teamID = $teamID;
         $this->teamName = $teamName;
     }
-    public function getTeamId()
+    public function getTeamID()
     {
         return $this->teamID;
     }
