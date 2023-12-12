@@ -8,13 +8,16 @@ window.onload = function () {
 function showTeams() {
   document.querySelector(".teams").classList.add("visible");
   document.querySelector(".standings").classList.remove("visible");
+
   getAllTeams();
+
 }
 
 function showStandings() {
   document.querySelector(".teams").classList.remove("visible");
   document.querySelector(".standings").classList.add("visible");
 }
+
 function getAllTeams() {
   let url = "teamService/teams";
   let method = "GET";
@@ -51,3 +54,4 @@ function buildTable(text) {
   let theTable = document.querySelector("#teamsTable");
   theTable.innerHTML = html;
 }
+
