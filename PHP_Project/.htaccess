@@ -1,0 +1,7 @@
+#URL Mapping for API's
+RewriteEngine on
+
+RewriteRule ^playerService/players$ api/playerService.php [NC]
+RewriteRule ^playerService/players/\d{1,4}$ api/playerService.php?playerid=$1 [NC]
+RewriteRule ^teamService/teams$ api/teamService.php [NC]
+RewriteRule ^teamService/teams/\d{1,4}$ api/teamService?teamid=$1 [NC]
