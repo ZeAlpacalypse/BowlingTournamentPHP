@@ -1,6 +1,6 @@
 <?php
 
-class Game implements JsonSerializable
+class Player implements JsonSerializable
 {
     private $playerID;
     private $teamID;

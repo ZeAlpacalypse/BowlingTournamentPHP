@@ -56,13 +56,14 @@
         display: block;
       }
     </style>
+    <script src="guest.js"></script>
   </head>
   <body>
     <div class="container">
       <h1>Bowling Tournament Guest Dashboard</h1>
       <a href="index.html" class="btn">Home</a>
-      <button class="btn">View Teams</button>
-      <button class="btn">View Standings</button>
+      <button id="viewTeamsBtn" class="btn">View Teams</button>
+      <button id="viewStandingBtn" class="btn">View Standings</button>
 
       <div class="teams">
         <h2>Teams</h2>
@@ -71,9 +72,10 @@
             <tr>
               <th>Team Name</th>
               <th>Players</th>
+              <th>View/Edit Team</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="teamsTable">
             <!--To be filled By JS-->
           </tbody>
         </table>
