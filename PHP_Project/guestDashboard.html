@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bowling Tournament Guest Dashboard</title>
+    <link rel="stylesheet" href="projectStyleSheet.css" />
+    <style>
+      /* General styles */
+      body {
+        font-family: sans-serif;
+        background-color: #f5f5f5;
+        margin-top: 100px;
+        text-align: center;
+      }
+      h1 {
+        color: #003366;
+        font-size: 2em;
+        margin-bottom: 30px;
+      }
+      /* Button styles */
+      .btn {
+        padding: 15px 30px;
+        margin: 0 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: #fff;
+        font-size: 1.1em;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn:hover {
+        background-color: #2980b9;
+      }
+      /* Data visibility */
+      .teams,
+      .standings {
+        display: none;
+        margin-top: 20px;
+      }
+      table {
+        width: 80%;
+        margin: 0 auto;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 8px;
+        border: 1px solid #ddd;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      /* Visible class */
+      .visible {
+        display: block;
+      }
+    </style>
+    <script src="guest.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bowling Tournament Guest Dashboard</h1>
+      <a href="index.html" class="btn">Home</a>
+      <button id="viewTeamsBtn" class="btn">View Teams</button>
+      <button id="viewStandingBtn" class="btn">View Standings</button>
+
+      <div class="teams">
+        <h2>Teams</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Team Name</th>
+              <th>Players</th>
+              <th>View/Edit Team</th>
+            </tr>
+          </thead>
+          <tbody id="teamsTable">
+            <!--To be filled By JS-->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="standings">
+        <h2>Standings</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Team Name</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!--To be filled By JS-->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
