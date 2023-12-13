@@ -3,6 +3,10 @@ window.onload = function () {
     .querySelector("#viewSchedule")
     .addEventListener("click", showSchedule);
   document.querySelector("#scoreGames").addEventListener("click", showScore);
+  document
+    .querySelector("#loadPlayersBtn")
+    .addEventListener("click", showPlayers);
+  document.querySelector("#loadTeamsBtn").addEventListener("click", showTeams);
 };
 function showSchedule() {
   document.querySelector(".schedule-data").classList.add("visible");
@@ -13,6 +17,14 @@ function showSchedule() {
 function showScore() {
   document.querySelector(".schedule-data").classList.remove("visible");
   document.querySelector(".score-data").classList.add("visible");
+}
+function showPlayers() {
+  document.querySelector(".teamsTable").classList.remove("visible");
+  document.querySelector(".playersTable").classList.add("visible");
+}
+function showTeams() {
+  document.querySelector(".playersTable").classList.remove("visible");
+  document.querySelector(".teamsTable").classList.add("visible");
 }
 function getAllMatchUps() {
   let url = "matchUpService/matches";

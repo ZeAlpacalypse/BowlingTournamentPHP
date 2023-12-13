@@ -42,7 +42,9 @@
       }
       /* Data visibility */
       .team-editor,
-      .round-setup {
+      .round-setup,
+      .playersTable,
+      .teamsTable {
         display: none;
       }
       .visible {
@@ -61,7 +63,12 @@
       </div>
       <div class="team-editor">
         <!-- Team editor interface -->
-        <p>Team Editor Interface goes here...</p>
+        <div class="data-loader">
+          <button id="loadPlayersBtn">Load All Players</button>
+          <button id="loadTeamsBtn">Load All Teams</button>
+          <div id="playersTable"><p>players table</p></div>
+          <div id="teamsTable"><p>teams table</p></div>
+        </div>
       </div>
       <div class="round-setup">
         <!-- Round setup interface -->
