@@ -40,6 +40,29 @@
       .dashboard-button:hover {
         background-color: #2980b9;
       }
+      .scoring-box {
+        width: 300px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .frame {
+        display: inline-block;
+        margin: 10px;
+        width: 40px;
+      }
+      .confirm-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: #fff;
+        font-size: 1em;
+        cursor: pointer;
+      }
       /* Data visibility */
       .schedule-data,
       .score-data {
@@ -70,7 +93,34 @@
       </div>
       <div class="score-data">
         <!-- Place bowling game scoring interface here -->
-        <p>Bowling Game Scoring interface goes here...</p>
+        <div class="scoring-box">
+          <h2>Scoring Frame</h2>
+          <h3>Team1</h3>
+
+          <label for="teamMembers">Select Team Member:</label>
+          <select id="teamMembers">
+            <!--Placeholder, grab team members from db-->
+            <option value="member1">Team Member 1</option>
+            <option value="member2">Team Member 2</option>
+            <option value="member3">Team Member 3</option></select
+          ><br /><br />
+
+          <label>Enter Scores for Each Frame:</label><br />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" />
+          <input class="frame" type="number" min="0" max="10" /><br /><br />
+
+          <button class="confirm-button">Confirm Score</button>
+        </div>
       </div>
     </div>
   </body>
