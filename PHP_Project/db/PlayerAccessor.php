@@ -7,7 +7,7 @@ class PlayerAccessor
     private $getByPlayerIDStatementString = "select * from PLAYER where playerID = :playerID";
     private $deleteStatementString = "delete from PLAYER where playerID = :playerID";
     private $insertStatementString = "insert INTO PLAYER values (:playerID, :teamID, :firstName, :lastName, :homeTown, :provinceCode ";
-    private $updateStatementString = "update PLAYER  set playerID = :playerID, teamID = :teamID, firstName = :firstName, lastName = :lastName, homeTown = :homeTown, provinceCode = :provinceCode";
+    private $updateStatementString = "update PLAYER  set teamID = :teamID, firstName = :firstName, lastName = :lastName, homeTown = :homeTown, provinceCode = :provinceCode where playerID = :playerID";
     private $getPlayerByTeamString = "select * from PLAYER where teamID = :teamID";
 
     private $getAllStatement = null;

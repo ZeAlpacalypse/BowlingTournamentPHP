@@ -107,14 +107,14 @@ function doPost($ga)
 // aka UPDATE
 function doPut($ga)
 {
-    if (isset($_GET['teamid'])) {
+    if (isset($_GET['gameid'])) {
         // The details of the item to update will be in the request body.
         $body = file_get_contents('php://input');
         $contents = json_decode($body, true);
 
         try {
             // create a Team object
-            $teamObj = new Team($contents['teamID'], $contents['teamName']);
+            $teamObj = new Game($contents['gameID'], 1, 1, $contents['gameStateID'], $contents['score'], $contents['balls'], 1);
             // update the object in the  DB
             $success = $ga->updateItem($teamObj);
             if ($success) {

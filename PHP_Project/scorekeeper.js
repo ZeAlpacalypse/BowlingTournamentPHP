@@ -1,4 +1,6 @@
 import * as BowlingGame from "./BowlingGame.js";
+import { BowlingGame } from "./BowlingGame.js";
+
 window.onload = function () {
   document
     .querySelector("#viewSchedule")

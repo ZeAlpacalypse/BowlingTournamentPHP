@@ -23,9 +23,11 @@ class UsersAccessor
             throw new Exception("bad statement '" . $this->getUserExistsStatementString . "'");
         }
     }
+    
     public function loginUser($username, $password)
     {
         $results = ["message" => "", "bool" => false];
+        $exist = userExists($username);
         if (!userExists($username)) {
             $results["Message"] = "User does not exist";
             return $results;
@@ -50,7 +52,7 @@ class UsersAccessor
         }
         return $results;
     }
-    private function userExists($username)
+    public function userExists($username)
     {
         return $this->getUser($username) !== null;
     }
