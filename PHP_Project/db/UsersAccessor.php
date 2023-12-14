@@ -23,7 +23,7 @@ class UsersAccessor
             throw new Exception("bad statement '" . $this->getUserExistsStatementString . "'");
         }
     }
-    public function loginUser($username, $password)
+    /* public function loginUser($username, $password)
     {
         $results = ["message" => "", "bool" => false];
         if (!userExists($username)) {
@@ -49,7 +49,7 @@ class UsersAccessor
             }
         }
         return $results;
-    }
+    }*/
     private function userExists($username)
     {
         return $this->getUser($username) !== null;
@@ -67,9 +67,7 @@ class UsersAccessor
                 $password = $dbres["password"];
                 $privilege = $dbres["privilegeLevel"];
                 $result = new Users($userID, $username, $password, $privilege);
-
             }
-
         } catch (Exception $e) {
             $result = null;
         } finally {
