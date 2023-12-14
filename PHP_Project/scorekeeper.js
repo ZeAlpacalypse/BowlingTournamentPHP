@@ -12,7 +12,7 @@ window.onload = function () {
 function showSchedule() {
   document.querySelector(".schedule-data").classList.add("visible");
   document.querySelector(".score-data").classList.remove("visible");
-  getAllMatchUps();
+  getAllGames();
 }
 
 function showScore() {
@@ -20,8 +20,8 @@ function showScore() {
   document.querySelector(".score-data").classList.add("visible");
 }
 
-function getAllMatchUps() {
-  let url = "matchUpService/matches";
+function getAllGames() {
+  let url = "gameService/games";
   let method = "GET";
   let xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function () {
@@ -113,18 +113,19 @@ function buildPlayerOption(text) {
 function buildTable(text) {
   let arr = JSON.parse(text); // get JS Objects
   let html =
-    "<table><tr><th>Match ID</th><th>Round</th><th>Match Group</th><th>Team ID</th><th>Score</th><th>Ranking</th></tr>";
+    "<table><tr><th>Match ID</th><th>Game Number</th><th>Game State</th><th>Score</th><th>Player ID</th></tr>";
 
   for (let i = 0; i < arr.length; i++) {
     let row = arr[i];
-    html += "<tr>";
-    html += "<td>" + row.matchID + "</td>";
-    html += "<td>" + row.roundID + "</td>";
-    html += "<td>" + row.matchGroup + "</td>";
-    html += "<td>" + row.teamID + "</td>";
-    html += "<td>" + row.score + "</td>";
-    html += "<td>" + row.ranking + "</td>";
-    html += "</tr>";
+    if (row.gameStateID === "AVAILABLE") {
+      html += "<tr>";
+      html += "<td>" + row.matchID + "</td>";
+      html += "<td>" + row.gameNumber + "</td>";
+      html += "<td>" + row.gameStateID + "</td>";
+      html += "<td>" + row.score + "</td>";
+      html += "<td>" + row.playerID + "</td>";
+      html += "</tr>";
+    }
   }
   html += "</table>";
 

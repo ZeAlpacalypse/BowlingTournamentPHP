@@ -56,7 +56,7 @@ function doGet($pia)
                 $results = json_encode($results, JSON_NUMERIC_CHECK);
                 sendResponse(200, $results, null);
             } else {
-                sendResponse(404, null, $id);
+                sendResponse(404, null, "could not retrieve items");
             }
         } catch (Exception $e) {
             sendResponse(500, null, "ERROR " . $e->getMessage());
