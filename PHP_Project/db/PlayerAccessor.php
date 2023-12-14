@@ -9,6 +9,8 @@ class PlayerAccessor
     private $insertStatementString = "insert INTO PLAYER values (:playerID, :teamID, :firstName, :lastName, :homeTown, :provinceCode ";
     private $updateStatementString = "update PLAYER  set playerID = :playerID, teamID = :teamID, firstName = :firstName, lastName = :lastName, homeTown = :homeTown, provinceCode = :provinceCode";
 
+    private $getByTeamIDStatementString = "select * from PLAYER where teamID = :teamID";
+
     private $getAllStatement = null;
     private $getByPlayerIDStatement = null;
     private $deleteStatement = null;
@@ -106,7 +108,33 @@ class PlayerAccessor
         }
         return $result;
     }
+    private function getPlayerByTeamID($id)
+    {
+        $result = null;
 
+        try {
+            $this->getByPlayerIDStatement->bindParam(":teamID", $id);
+            $this->getByPlayerIDStatement->execute();
+            $dbresults = $this->getByPlayerIDStatement->fetch(PDO::FETCH_ASSOC); //Not fetchAll
+
+            if ($dbresults) {
+                $playerID = $dbresults['playerID'];
+                $teamID = $dbresults['teamID'];
+                $firstName = $dbresults['firstName'];
+                $lastName = $dbresults['lastName'];
+                $homeTown = $dbresults['homeTown'];
+                $provinceCode = $dbresults['provinceCode'];
+                $result = new Player($playerID, $teamID, $firstName, $lastName, $homeTown, $provinceCode);
+            }
+        } catch (Exception $e) {
+            $result = null;
+        } finally {
+            if (!is_null($this->getByPlayerIDStatement)) {
+                $this->getByPlayerIDStatement->closeCursor();
+            }
+        }
+        return $result;
+    }
     /**
      * Does a player exist with the same ID?
      * 
