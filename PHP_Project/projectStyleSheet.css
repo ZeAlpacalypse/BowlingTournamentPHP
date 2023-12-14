@@ -132,3 +132,7 @@ th {
 .selected {
   background-color: rgb(192, 207, 226);
 }
+.dashboard-button:disabled {
+  opacity: 0.5;
+  background-color: #003366;
+}

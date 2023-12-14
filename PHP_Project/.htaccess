@@ -9,3 +9,4 @@ RewriteRule ^teamService/teams/\d{1,4}$ api/teamService?teamid=$1 [NC]
 RewriteRule ^matchUpService/matches$ api/matchUpService.php [NC]
 RewriteRule ^matchUpService/matches/\d{1,4}$ api/matchUpService.php?matchid=$1 [NC]
 RewriteRule ^gameService/games$ api/gameService.php [NC]
+RewriteRule ^gameService/games/\d{1,4}$ api/gameService.php?gameid=$1

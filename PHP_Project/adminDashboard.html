@@ -51,6 +51,159 @@
         display: block;
       }
     </style>
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        <title>Admin Dashboard</title>
+        <link rel="stylesheet" href="projectStyleSheet.css" />
+        <style>
+          /* General styles */
+          body {
+            font-family: sans-serif;
+            background-color: #f5f5f5;
+          }
+
+          .container {
+            text-align: center;
+            margin-top: 100px;
+          }
+
+          h1 {
+            color: #003366;
+            font-size: 2em;
+            margin-bottom: 30px;
+          }
+
+          /* Data visibility */
+          .team-editor,
+          .round-setup {
+            display: none;
+          }
+
+          .visible {
+            display: block;
+          }
+        </style>
+        <script src="admin.js"></script>
+      </head>
+
+      <body>
+        <div id="content" class="container">
+          <h1>Admin Dashboard</h1>
+
+          <div class="button-container">
+            <button id="editTeams" class="dashboard-button">Team Editor</button>
+          </div>
+
+          <div id="teamCrudBtns" class="hidden">
+            <button id="btnTeamAdd">Add Team</button>
+            <button id="btnTeamDelete" disabled>Delete Team</button>
+            <button id="btnTeamUpdate" disabled>Update Team</button>
+          </div>
+
+          <div id="playerCrudBtns" class="hidden">
+            <button id="btnPlayerAdd">Add Player</button>
+            <button id="btnPlayerDelete" disabled>Delete Player</button>
+            <button id="btnPlayerUpdate" disabled>Update Player</button>
+          </div>
+
+          <div id="addUpdateTeamContainer" class="hidden">
+            <div class="inputContainer">
+              <div class="inputLabel">Team ID:</div>
+              <div class="inputField">
+                <input
+                  id="teamID"
+                  name="teamID"
+                  type="number"
+                  min="100"
+                  max="999"
+                />
+              </div>
+            </div>
+
+            <div class="inputContainer">
+              <div class="inputLabel">Team Name:</div>
+              <div class="inputField">
+                <input id="teamName" name="teamName" />
+              </div>
+            </div>
+
+            <div class="inputContainer">
+              <div class="inputLabel">&nbsp;</div>
+              <div class="inputField">
+                <button id="btnTeamDone" class="btn-primary">Done</button>
+                <button id="btnTeamCancel" class="btn-primary">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="addUpdatePlayerContainer" class="hidden">
+            <div class="inputContainer">
+              <div class="inputLabel">Team ID:</div>
+              <div class="inputField">
+                <input
+                  id="teamIDPlayer"
+                  name="teamIDPlayer"
+                  type="number"
+                  min="100"
+                  max="999"
+                />
+              </div>
+            </div>
+
+            <div class="inputContainer">
+              <div class="inputLabel">Player ID:</div>
+              <div class="inputField">
+                <input id="playerID" name="playerID" type="number" />
+              </div>
+            </div>
+
+            <div class="inputContainer">
+              <div class="inputLabel">First Name:</div>
+              <div class="inputField">
+                <input id="firstName" name="firstName" />
+              </div>
+            </div>
+
+            <div class="inputContainer">
+              <div class="inputLabel">Last Name:</div>
+              <div class="inputField">
+                <input id="lastName" name="lastName" />
+              </div>
+            </div>
+
+            <div class="inputContainer">
+              <div class="inputLabel">Home Town:</div>
+              <div class="inputField">
+                <input id="hometown" name="hometown" />
+              </div>
+            </div>
+
+            <div class="inputContainer">
+              <div class="inputLabel">Province:</div>
+              <div class="inputField">
+                <input id="provinceCode" name="provinceCode" />
+              </div>
+            </div>
+
+            <div class="inputContainer">
+              <div class="inputLabel">&nbsp;</div>
+              <div class="inputField">
+                <button id="btnPlayerDone" class="btn-primary">Done</button>
+                <button id="btnPlayerCancel" class="btn-primary">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-editor">
+            <!-- Team editor interface -->
+            <p>Team Editor Interface goes here...</p>
+          </div>
+          <div id="playerResults"></div>
+        </div>
+      </body>
+    </html>
     <script src="admin.js"></script>
   </head>
   <body>

@@ -11,11 +11,13 @@ class GameAccessor
     // private $insertStatementString = "insert INTO Game values (:gameID, :matchID, :gameNumber, :gameStateID, :score, :balls, :playerID";
     private $updateUnassignedGamesString = "update GAME set gameStateID = :gameStateID where gameStateID = 'UNASSIGNED'";
     private $updateStatementString = "update Game set matchID = :matchID, gameNumber = :gameNumber, gameStateID = :gameStateID, score = :score, balls = :balls, playerID = :playerID where gameID = :gameID";
+    private $scoreGameStatementString = "update Game set gameStateID = :gameStateID, score = :score, balls = :balls where gameID = :gameID";
     private $getAllStatement = null;
     private $getByIDStatement = null;
     private $deleteStatement = null;
     private $insertStatement = null;
     private $updateStatement = null;
+    private $scoreGame = null;
     private $updateUnassignedGames = null;
 
 
@@ -50,6 +52,10 @@ class GameAccessor
         $this->updateUnassignedGames = $conn->prepare($this->updateUnassignedGamesString);
         if (is_null($this->updateUnassignedGames)) {
             throw new Exception("bad statement: '" . $this->updateUnassignedGamesString . "'");
+        }
+        $this->scoreGame = $conn->prepare($this->scoreGameStatementString);
+        if (is_null($this->scoreGame)) {
+            throw new Exception("bad statement: '" . $this->scoreGameStatementString . "'");
         }
     }
 
@@ -210,6 +216,37 @@ class GameAccessor
         } finally {
             if (!is_null($this->updateStatement)) {
                 $this->updateStatement->closeCursor();
+            }
+        }
+        return $success;
+    }
+    public function scoreGame($game)
+    {
+        if (!$this->itemExists($game)) {
+            return false;
+        }
+
+        $success = false;
+
+        $gameID = $game->getgameID();
+
+
+        $gameStateID = $game->getGameStateID();
+        $score = $game->getScore();
+        $balls = $game->getBalls();
+        try {
+            $this->scoreGame->bindParam(":gameStateId", $gameStateID);
+            $this->scoreGame->bindParam(":score", $score);
+            $this->scoreGame->bindParam("balls", $balls);
+            $this->scoreGame->bindParam(":gameId", $gameID);
+
+            $success = $this->scoreGame->execute();
+            $success = $this->updateStatement->rowCount() === 1;
+        } catch (Exception $e) {
+            $success = false;
+        } finally {
+            if (!is_null($this->scoreGame)) {
+                $this->scoreGame->closeCursor();
             }
         }
         return $success;

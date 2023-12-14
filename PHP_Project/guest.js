@@ -44,7 +44,6 @@ function getAllTeams() {
       if (xhr.status === 200) {
         if (resp.data) {
           buildTable(resp.data);
-          setButtonState(true);
         } else if (xhr.status === 500) {
           alert("Server Error: " + resp.error);
         }
@@ -160,14 +159,4 @@ function clearSelections() {
   for (let i = 0; i < trs.length; i++) {
     trs[i].classList.remove("selected");
   }
-}
-function setButtonState(state) {
-  if (state) {
-    document.querySelector("#viewTeamInfo").removeAttribute("disabled");
-    document.querySelector("#gameRecap").removeAttribute("disabled");
-  } else
-    document
-      .querySelector("#viewTeamInfo")
-      .setAttribute("disabled", "disabled");
-  document.querySelector("#gameRecap").setAttribute("disabled", "disabled");
 }
