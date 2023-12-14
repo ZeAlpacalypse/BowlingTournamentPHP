@@ -9,12 +9,15 @@ class GameAccessor
 
 
     // private $insertStatementString = "insert INTO Game values (:gameID, :matchID, :gameNumber, :gameStateID, :score, :balls, :playerID";
+    private $updateUnassignedGamesString = "update GAME set gameStateID = :gameStateID where gameStateID = 'UNASSIGNED'";
     private $updateStatementString = "update Game set matchID = :matchID, gameNumber = :gameNumber, gameStateID = :gameStateID, score = :score, balls = :balls, playerID = :playerID where gameID = :gameID";
     private $getAllStatement = null;
     private $getByIDStatement = null;
     private $deleteStatement = null;
     private $insertStatement = null;
     private $updateStatement = null;
+    private $updateUnassignedGames = null;
+
 
     public function __construct($conn)
     {
@@ -43,6 +46,10 @@ class GameAccessor
         $this->updateStatement = $conn->prepare($this->updateStatementString);
         if (is_null($this->updateStatement)) {
             throw new Exception("bad statement: '" . $this->updateStatementString . "'");
+        }
+        $this->updateUnassignedGames = $conn->prepare($this->updateUnassignedGamesString);
+        if (is_null($this->updateUnassignedGames)) {
+            throw new Exception("bad statement: '" . $this->updateUnassignedGamesString . "'");
         }
     }
 

@@ -48,6 +48,19 @@ function doGet($pia)
     if (isset($_GET['playerid'])) {
 
         sendResponse(405, null, "individual GETs not allowed");
+    } else if (isset($_GET['teamid'])) {
+        try {
+            $id = $_GET['teamid'];
+            $results = $pia->getPlayerByTeamID($id);
+            if (count($results) > 0) {
+                $results = json_encode($results, JSON_NUMERIC_CHECK);
+                sendResponse(200, $results, null);
+            } else {
+                sendResponse(404, null, $id);
+            }
+        } catch (Exception $e) {
+            sendResponse(500, null, "ERROR " . $e->getMessage());
+        }
     }
     // collection
     else {

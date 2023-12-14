@@ -3,10 +3,11 @@ window.onload = function () {
     .querySelector("#viewSchedule")
     .addEventListener("click", showSchedule);
   document.querySelector("#scoreGames").addEventListener("click", showScore);
+  getAllTeams();
+  getAllPlayers();
   document
-    .querySelector("#loadPlayersBtn")
-    .addEventListener("click", showPlayers);
-  document.querySelector("#loadTeamsBtn").addEventListener("click", showTeams);
+    .querySelector("#teamOption")
+    .addEventListener("change", filterPlayersByTeam);
 };
 function showSchedule() {
   document.querySelector(".schedule-data").classList.add("visible");
@@ -18,14 +19,7 @@ function showScore() {
   document.querySelector(".schedule-data").classList.remove("visible");
   document.querySelector(".score-data").classList.add("visible");
 }
-function showPlayers() {
-  document.querySelector(".teamsTable").classList.remove("visible");
-  document.querySelector(".playersTable").classList.add("visible");
-}
-function showTeams() {
-  document.querySelector(".playersTable").classList.remove("visible");
-  document.querySelector(".teamsTable").classList.add("visible");
-}
+
 function getAllMatchUps() {
   let url = "matchUpService/matches";
   let method = "GET";
@@ -45,12 +39,82 @@ function getAllMatchUps() {
   xhr.open(method, url, true);
   xhr.send();
 }
+
+function getAllTeams() {
+  let url = "teamService/teams";
+  let method = "GET";
+  let xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      let resp = JSON.parse(xhr.responseText);
+      if (xhr.status === 200) {
+        if (resp.data) {
+          buildTeamOption(resp.data);
+        } else if (xhr.status === 500) {
+          alert("Server Error: " + resp.error);
+        }
+      }
+    }
+  };
+  xhr.open(method, url, true);
+  xhr.send();
+}
+function getAllPlayers() {
+  let url = "playerService/players";
+  let method = "GET";
+  let xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      let resp = JSON.parse(xhr.responseText);
+      if (xhr.status === 200) {
+        if (resp.data) {
+          buildPlayerOption(resp.data);
+        } else if (xhr.status === 500) {
+          alert("Server Error: " + resp.error);
+        }
+      }
+    }
+  };
+  xhr.open(method, url, true);
+  xhr.send();
+}
+function buildTeamOption(text) {
+  let arr = JSON.parse(text);
+  let html = '<select id="teamNames">';
+  for (let i = 0; i < arr.length; i++) {
+    let row = arr[i];
+    html += "<option value='" + row.teamID + "'>" + row.teamName + "</option>";
+  }
+  html += "</select>";
+  let dropDownBox = document.querySelector("#teamOption");
+  dropDownBox.innerHTML = html;
+}
+function buildPlayerOption(text) {
+  let arr = JSON.parse(text);
+  let html = '<select id="teamMembers">';
+  for (let i = 0; i < arr.length; i++) {
+    let row = arr[i];
+    html +=
+      "<option value='" +
+      row.playerID +
+      "' data-teamid='" +
+      row.teamID +
+      "'>" +
+      row.firstName +
+      " " +
+      row.lastName +
+      "</option>";
+  }
+  html += "</select>";
+  let dropDownBox = document.querySelector("#playerOption");
+  dropDownBox.innerHTML = html;
+}
 // text is a JSON string containing an array
 function buildTable(text) {
   let arr = JSON.parse(text); // get JS Objects
   let html =
     "<table><tr><th>Match ID</th><th>Round</th><th>Match Group</th><th>Team ID</th><th>Score</th><th>Ranking</th></tr>";
-  console.log(html);
+
   for (let i = 0; i < arr.length; i++) {
     let row = arr[i];
     html += "<tr>";
@@ -63,7 +127,20 @@ function buildTable(text) {
     html += "</tr>";
   }
   html += "</table>";
-  console.log(html);
+
   let theTable = document.querySelector("#scheduleTable");
   theTable.innerHTML = html;
+}
+function filterPlayersByTeam() {
+  let teamID = document.querySelector("#teamNames").value;
+  let playerOptions = document.querySelectorAll("#teamMembers option");
+
+  playerOptions.forEach((option) => {
+    let playerTeamID = option.getAttribute("data-teamid");
+    if (playerTeamID === teamID) {
+      option.style.display = "block";
+    } else {
+      option.style.display = "none";
+    }
+  });
 }

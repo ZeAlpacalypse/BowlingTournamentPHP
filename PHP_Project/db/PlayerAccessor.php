@@ -8,12 +8,14 @@ class PlayerAccessor
     private $deleteStatementString = "delete from PLAYER where playerID = :playerID";
     private $insertStatementString = "insert INTO PLAYER values (:playerID, :teamID, :firstName, :lastName, :homeTown, :provinceCode ";
     private $updateStatementString = "update PLAYER  set playerID = :playerID, teamID = :teamID, firstName = :firstName, lastName = :lastName, homeTown = :homeTown, provinceCode = :provinceCode";
+    private $getPlayerByTeamString = "select * from PLAYER where teamID = :teamID";
 
     private $getAllStatement = null;
     private $getByPlayerIDStatement = null;
     private $deleteStatement = null;
     private $insertStatement = null;
     private $updateStatement = null;
+    private $getPlayerByTeamStatement = null;
 
     public function __construct($conn)
     {
@@ -40,6 +42,10 @@ class PlayerAccessor
         if (is_null($this->updateStatement)) {
             throw new Exception("bad statement: '" . $this->updateStatementString . "'");
         }
+        $this->getPlayerByTeamStatement = $conn->prepare($this->getPlayerByTeamString);
+        if (is_null($this->getPlayerByTeamStatement)) {
+            throw new Exception("bad statement: '" . $this->getPlayerByTeamString . "'");
+        }
     }
     /**
      * Gets all the Players
@@ -58,9 +64,9 @@ class PlayerAccessor
                 $teamID = $p['teamID'];
                 $firstName = $p['firstName'];
                 $lastName = $p['lastName'];
-                $homeTown = $p['homeTown'];
+                $hometown = $p['hometown'];
                 $provinceCode = $p['provinceCode'];
-                $obj = new Player($playerID, $teamID, $firstName, $lastName, $homeTown, $provinceCode);
+                $obj = new Player($playerID, $teamID, $firstName, $lastName, $hometown, $provinceCode);
                 array_push($results, $obj);
             }
         } catch (Exception $e) {
@@ -223,6 +229,40 @@ class PlayerAccessor
             }
         }
         return $success;
+    }
+    /**
+     * Gets the Player with the specified teamID
+     * 
+     * @param Integer  $id the teamID of the player to retrieve
+     * @return Player[] Player object with the ID, or NULL if not found
+     */
+    public function getPlayerByTeamID($id)
+    {
+        $results = [];
+
+        try {
+            $this->getPlayerByTeamStatement->bindParam(":teamID", $id);
+            $this->getPlayerByTeamStatement->execute();
+            $dbresults = $this->getPlayerByTeamStatement->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($dbresults as $p) {
+                $playerID = $p['playerID'];
+                $teamID = $p['teamID'];
+                $firstName = $p['firstName'];
+                $lastName = $p['lastName'];
+                $homeTown = $p['homeTown'];
+                $provinceCode = $p['provinceCode'];
+                $obj = new Player($playerID, $teamID, $firstName, $lastName, $homeTown, $provinceCode);
+                array_push($results, $obj);
+            }
+        } catch (Exception $e) {
+            $results = null;
+        } finally {
+            if (!is_null($this->getPlayerByTeamStatement)) {
+                $this->getPlayerByTeamStatement->closeCursor();
+            }
+        }
+        return $results;
     }
 }
 //end class PlayerAccessor
