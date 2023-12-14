@@ -111,26 +111,82 @@ function buildPlayerOption(text) {
 }
 // text is a JSON string containing an array
 function buildTable(text) {
-  let arr = JSON.parse(text); // get JS Objects
-  let html =
-    "<table><tr><th>Match ID</th><th>Game Number</th><th>Game State</th><th>Score</th><th>Player ID</th></tr>";
-
+  let arr = JSON.parse(text);
+  // get JS Objects
+  let available = false;
   for (let i = 0; i < arr.length; i++) {
     let row = arr[i];
-    if (row.gameStateID === "AVAILABLE") {
-      html += "<tr>";
-      html += "<td>" + row.matchID + "</td>";
-      html += "<td>" + row.gameNumber + "</td>";
-      html += "<td>" + row.gameStateID + "</td>";
-      html += "<td>" + row.score + "</td>";
-      html += "<td>" + row.playerID + "</td>";
-      html += "</tr>";
+    if (row.gameStateID !== "COMPLETE" || row.gameStateID !== "UNASSIGNED") {
+      available = true;
+      break;
     }
   }
-  html += "</table>";
+  let html = "";
+  if (available) {
+    html =
+      "<table><tr><th>Match ID</th><th>Game Number</th><th>Game State</th><th>Score</th><th>Player ID</th></tr>";
 
+    for (let i = 0; i < arr.length; i++) {
+      let row = arr[i];
+      if (row.gameStateID === "AVAILABLE") {
+        html += "<tr>";
+        html += "<td>" + row.matchID + "</td>";
+        html += "<td>" + row.gameNumber + "</td>";
+        html += "<td>" + row.gameStateID + "</td>";
+        html += "<td>" + row.score + "</td>";
+        html += "<td>" + row.playerID + "</td>";
+        html += "</tr>";
+      }
+    }
+    html += "</table>";
+  } else {
+    let scores = rankQualifyingRound(arr);
+    let ranking = bubbleSort(scores);
+
+    for (let i = 0; i < scores.length; i++) {
+      for (let j = 0; j < ranking.length; j++) {
+        if (scores[i] === ranking[j]) {
+          let obj = {
+            matchID: i,
+            round: "QUAL",
+            matchgroup: 1,
+            teamID: i,
+            score: scores[i],
+            ranking: j + 1,
+          };
+          let url = "matchUpService/matches/" + obj.matchID;
+          let method = "PUT";
+          let xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              let resp = JSON.parse(xhr.responseText);
+              if (xhr.status === 200) {
+                if (xhr.status === 200) {
+                  console.log("it works");
+                } else if (xhr.status === 500) {
+                  alert("Server Error: " + resp.error);
+                }
+              }
+            }
+          };
+          xhr.open(method, url, true);
+          xhr.send(obj);
+        }
+      }
+    }
+  }
   let theTable = document.querySelector("#scheduleTable");
   theTable.innerHTML = html;
+}
+function bubbleSort(arr) {
+  for (let i = arr.length; i > 0; i--) {
+    if (arr[i] > arr[i - 1]) {
+      let temp = arr[i];
+      arr[i] = arr[i - 1];
+      arr[i - 1] = temp;
+    }
+  }
+  return arr;
 }
 function filterPlayersByTeam() {
   let teamID = document.querySelector("#teamNames").value;
@@ -144,4 +200,27 @@ function filterPlayersByTeam() {
       option.style.display = "none";
     }
   });
+}
+
+function rankQualifyingRound(arr) {
+  let matchupScores = [];
+  let gameTotal = 0;
+  let matchID = -1;
+  if (arr[399].gameStateID !== "AVAILABLE");
+  for (let i = 0; i < arr.length; i++) {
+    let game = arr[i];
+    if (game.gameStateID === "COMPLETE") {
+      console.log("does " + game.matchID + " equal " + matchID);
+      if (matchID === -1) {
+        matchID = game.matchID;
+      }
+      if (game.matchID !== matchID) {
+        matchupScores.push(gameTotal);
+        matchID = game.matchID;
+        gameTotal = 0;
+      }
+      gameTotal += game.score;
+    }
+  }
+  return matchupScores;
 }
