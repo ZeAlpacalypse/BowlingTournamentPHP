@@ -2,22 +2,25 @@ window.onload = function () {
   document
     .querySelector("#viewSchedule")
     .addEventListener("click", showSchedule);
-  document.querySelector("#scoreGames").addEventListener("click", showScore);
-  getAllTeams();
-  getAllPlayers();
-  document
-    .querySelector("#teamOption")
-    .addEventListener("change", filterPlayersByTeam);
-};
-function showSchedule() {
-  document.querySelector(".schedule-data").classList.add("visible");
-  document.querySelector(".score-data").classList.remove("visible");
-  getAllGames();
-}
+  document.querySelector("#scoreGames").addEventListener("click", scoreGame);
 
-function showScore() {
-  document.querySelector(".schedule-data").classList.remove("visible");
+  function showSchedule() {
+    clearSelections();
+    document.querySelector(".schedule-data").classList.add("visible");
+    document.querySelector(".score-data").classList.remove("visible");
+    getAllGames();
+    document
+      .querySelector("#scheduleTable")
+      .addEventListener("click", handleRowClick);
+  }
+};
+function scoreGame() {
   document.querySelector(".score-data").classList.add("visible");
+  document.querySelector(".schedule-data").classList.remove("visible");
+  let row = document.querySelector(".selected");
+  let id = Number(row.querySelectorAll("td")[0].innerHTML);
+  document.querySelector("#gameToScore").innerHTML = "Current Game: " + id;
+  setScoreState(false);
 }
 
 function getAllGames() {
@@ -30,6 +33,7 @@ function getAllGames() {
       if (xhr.status === 200) {
         if (resp.data) {
           buildTable(resp.data);
+          setScoreState(false);
         } else if (xhr.status === 500) {
           alert("Server Error: " + resp.error);
         }
@@ -40,90 +44,20 @@ function getAllGames() {
   xhr.send();
 }
 
-function getAllTeams() {
-  let url = "teamService/teams";
-  let method = "GET";
-  let xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      let resp = JSON.parse(xhr.responseText);
-      if (xhr.status === 200) {
-        if (resp.data) {
-          buildTeamOption(resp.data);
-        } else if (xhr.status === 500) {
-          alert("Server Error: " + resp.error);
-        }
-      }
-    }
-  };
-  xhr.open(method, url, true);
-  xhr.send();
-}
-function getAllPlayers() {
-  let url = "playerService/players";
-  let method = "GET";
-  let xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      let resp = JSON.parse(xhr.responseText);
-      if (xhr.status === 200) {
-        if (resp.data) {
-          buildPlayerOption(resp.data);
-        } else if (xhr.status === 500) {
-          alert("Server Error: " + resp.error);
-        }
-      }
-    }
-  };
-  xhr.open(method, url, true);
-  xhr.send();
-}
-function buildTeamOption(text) {
-  let arr = JSON.parse(text);
-  let html = '<select id="teamNames">';
-  for (let i = 0; i < arr.length; i++) {
-    let row = arr[i];
-    html += "<option value='" + row.teamID + "'>" + row.teamName + "</option>";
-  }
-  html += "</select>";
-  let dropDownBox = document.querySelector("#teamOption");
-  dropDownBox.innerHTML = html;
-}
-function buildPlayerOption(text) {
-  let arr = JSON.parse(text);
-  let html = '<select id="teamMembers">';
-  for (let i = 0; i < arr.length; i++) {
-    let row = arr[i];
-    html +=
-      "<option value='" +
-      row.playerID +
-      "' data-teamid='" +
-      row.teamID +
-      "'>" +
-      row.firstName +
-      " " +
-      row.lastName +
-      "</option>";
-  }
-  html += "</select>";
-  let dropDownBox = document.querySelector("#playerOption");
-  dropDownBox.innerHTML = html;
-}
 // text is a JSON string containing an array
 function buildTable(text) {
   let arr = JSON.parse(text); // get JS Objects
   let html =
-    "<table><tr><th>Match ID</th><th>Game Number</th><th>Game State</th><th>Score</th><th>Player ID</th></tr>";
+    "<table><tr><th>Game ID<th>Match ID</th><th>Game Number</th><th>Game State</th></tr>";
 
   for (let i = 0; i < arr.length; i++) {
     let row = arr[i];
     if (row.gameStateID === "AVAILABLE") {
       html += "<tr>";
+      html += "<td>" + row.gameID + "</td>";
       html += "<td>" + row.matchID + "</td>";
       html += "<td>" + row.gameNumber + "</td>";
       html += "<td>" + row.gameStateID + "</td>";
-      html += "<td>" + row.score + "</td>";
-      html += "<td>" + row.playerID + "</td>";
       html += "</tr>";
     }
   }
@@ -132,16 +66,22 @@ function buildTable(text) {
   let theTable = document.querySelector("#scheduleTable");
   theTable.innerHTML = html;
 }
-function filterPlayersByTeam() {
-  let teamID = document.querySelector("#teamNames").value;
-  let playerOptions = document.querySelectorAll("#teamMembers option");
+function handleRowClick(evt) {
+  clearSelections();
+  evt.target.parentElement.classList.add("selected");
+  setScoreState(true);
+}
 
-  playerOptions.forEach((option) => {
-    let playerTeamID = option.getAttribute("data-teamid");
-    if (playerTeamID === teamID) {
-      option.style.display = "block";
-    } else {
-      option.style.display = "none";
-    }
-  });
+function clearSelections() {
+  let trs = document.querySelectorAll("tr");
+  for (let i = 0; i < trs.length; i++) {
+    trs[i].classList.remove("selected");
+  }
+}
+
+function setScoreState(state) {
+  if (state) {
+    document.querySelector("#scoreGames").removeAttribute("disabled");
+  } else
+    document.querySelector("#scoreGames").setAttribute("disabled", "disabled");
 }

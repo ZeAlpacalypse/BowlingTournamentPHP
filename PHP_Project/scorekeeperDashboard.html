@@ -71,6 +71,60 @@
       .visible {
         display: block;
       }
+      .dashboard-button:disabled {
+        opacity: 0.5;
+        background-color: #003366;
+      }
+
+      .bowling-score-sheet {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .frame {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 5px;
+        width: 120px;
+      }
+
+      .frame-number {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 5px;
+      }
+
+      .balls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .ball-input {
+        margin: 3px;
+        width: 50px;
+      }
+      .score-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .score-header h3 {
+        margin: 0; /* Reset margin for the heading */
+      }
+
+      .score-header button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: #fff;
+        font-size: 1em;
+        cursor: pointer;
+      }
     </style>
     <script src="scorekeeper.js"></script>
   </head>
@@ -82,39 +136,360 @@
         <button id="viewSchedule" class="dashboard-button">
           View Tournament Schedule
         </button>
-        <button id="scoreGames" class="dashboard-button">
-          Score Bowling Games
+        <button id="scoreGames" class="dashboard-button" disabled>
+          Score Game
         </button>
       </div>
       <div class="schedule-data">
         <!-- Place tournament schedule data here -->
-        <p>Tournament Table goes here</p>
+
         <div id="scheduleTable"></div>
       </div>
       <div class="score-data">
-        <!-- Place bowling game scoring interface here -->
-        <div class="scoring-box">
-          <h2>Scoring Frame</h2>
-          <h3>Select a Team</h3>
-          <div id="teamOption"></div>
-
-          <h3>Select A Team Memeber</h3>
-          <div id="playerOption"></div>
-          <br /><br />
-
-          <label>Enter Scores for Each Frame:</label><br />
-          <input class="frame" />
-          <input class="frame" />
-          <input class="frame" />
-          <input class="frame" />
-          <input class="frame" />
-          <input class="frame" />
-          <input class="frame" />
-          <input class="frame" />
-          <input class="frame" />
-          <input class="frame" /><br /><br />
-
-          <button class="confirm-button">Confirm Score</button>
+        <div class="bowling-score-sheet">
+          <div class="frame">
+            <div class="frame-number">Frame 1</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Frame 2</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Frame 3</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Frame 4</div>
+            <select class="ball-input">
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>X</option>
+            </select>
+            <select class="ball-input">
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>/</option>
+            </select>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Frame 5</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Frame 6</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Frame 7</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Frame 8</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Frame 9</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Frame 10</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="frame">
+            <div class="frame-number">Bonus</div>
+            <div class="balls">
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>X</option>
+              </select>
+              <select class="ball-input">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>/</option>
+              </select>
+            </div>
+          </div>
+          <div class="score-header">
+            <h3 id="gameToScore"></h3>
+            <button>Submit Scores</button>
+          </div>
         </div>
       </div>
     </div>
