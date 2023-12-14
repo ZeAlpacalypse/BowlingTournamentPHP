@@ -98,7 +98,7 @@ function buildTable(text) {
       let row = arr[i];
       if (row.gameStateID === "AVAILABLE") {
         html += "<tr>";
-        html += "<td id='" + row.gameID + "'>" + row.gameID + "</td>";
+        html += "<td>" + row.gameID + "</td>";
         html += "<td>" + row.matchID + "</td>";
         html += "<td>" + row.gameNumber + "</td>";
         html += "<td>" + row.gameStateID + "</td>";
