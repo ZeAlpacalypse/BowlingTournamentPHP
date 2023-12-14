@@ -1,9 +1,10 @@
+import * as BowlingGame from "./BowlingGame.js";
 window.onload = function () {
   document
     .querySelector("#viewSchedule")
     .addEventListener("click", showSchedule);
   document.querySelector("#scoreGames").addEventListener("click", scoreGame);
-
+  document.querySelector("#submit").addEventListener("click", updateGame);
   function showSchedule() {
     clearSelections();
     document.querySelector(".schedule-data").classList.add("visible");
@@ -23,6 +24,39 @@ function scoreGame() {
   setScoreState(false);
 }
 
+function updateGame() {
+  let gameID = document.querySelector("#gameToScore");
+  let inputs = document.querySelectorAll(".ball-input");
+  let frames = "";
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs[9] !== "/" || inputs[9] !== "X")
+      frames += inputs[i].ariaValueMax + " ";
+  }
+  let game = new BowlingGame.BowlingGame(frames);
+
+  let url = "gameService/games" + gameID;
+  let method = "PUT";
+  let xhr = new XMLHttpRequest();
+
+  let obj = {
+    gameID: gameID,
+    gameStateID: "COMPLETE",
+    score: game.totalScore,
+    balls: game.balls,
+  };
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      let resp = JSON.parse(xhr.responseText);
+      if (xhr.status === 200) {
+        alert("Game has been scored");
+      } else if (xhr.status === 500) {
+        alert("Server Error: " + resp.error);
+      }
+    }
+  };
+  xhr.open(method, url, true);
+  xhr.send(obj);
+}
 function getAllGames() {
   let url = "gameService/games";
   let method = "GET";
@@ -64,7 +98,7 @@ function buildTable(text) {
       let row = arr[i];
       if (row.gameStateID === "AVAILABLE") {
         html += "<tr>";
-        html += "<td>" + row.gameID + "</td>";
+        html += "<td id='" + row.gameID + "'>" + row.gameID + "</td>";
         html += "<td>" + row.matchID + "</td>";
         html += "<td>" + row.gameNumber + "</td>";
         html += "<td>" + row.gameStateID + "</td>";
